@@ -48,10 +48,11 @@ module.exports = function(appNameOrObject, pathOrCallback, callback) {
       }) 
     }, 
     function(seriesCallback) {
-      //Require config now that we have 'pre-set' the NODE_CONFIG_DIR:
+      //Ensures the proper node config is used
+      //(workaround pertaining to node-config issue #201). 
+      delete require.cache[require.resolve('config')]
+      //Require config now that we have 'pre-set' the NODE_CONFIG_DIR:      
       var config = require('config')
-      //Create a database, if necessary:
-      //db = new PouchDB( path + '/' + config.get('db_path') )
       return callback(path, config)
     }
   ])   

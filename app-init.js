@@ -1,7 +1,12 @@
 var async = require('async'), 
-    config = require('config'), 
     _ = require('underscore'), 
     fs = require('fs')
+
+//Suppress no_config warnings since this is a global app
+//that can be run from any directory...
+process.env.SUPPRESS_NO_CONFIG_WARNING = 'y'             
+//now we can require config: 
+var config = require('config')
 
 module.exports = function(appNameOrObject, pathOrCallback, callback) {
 
@@ -27,7 +32,6 @@ module.exports = function(appNameOrObject, pathOrCallback, callback) {
       fs.exists(path, function (exists) {
         //Override config directory:
         if(exists) {
-          process.env.NODE_CONFIG_DIR = path + 'config'
           return seriesCallback()
         }
         //Otherwise, do a first run setup!
@@ -40,8 +44,7 @@ module.exports = function(appNameOrObject, pathOrCallback, callback) {
           var configFile = fs.readFileSync(__dirname + '/config/default.json', 'utf-8')
           fs.mkdir(path + 'config', function(err) {
             if(err) return console.log(err)
-            fs.writeFileSync(path + 'config/local.json', configFile, 'utf-8')
-            process.env.NODE_CONFIG_DIR = path + 'config'
+            fs.writeFileSync(path + 'config/local.json', configFile, 'utf-8')           
             return seriesCallback()
           })
         })
@@ -51,6 +54,7 @@ module.exports = function(appNameOrObject, pathOrCallback, callback) {
       //Ensures the proper node config is used
       //(workaround pertaining to node-config issue #201). 
       delete require.cache[require.resolve('config')]
+      process.env.NODE_CONFIG_DIR = path + 'config'     
       //Require config now that we have 'pre-set' the NODE_CONFIG_DIR:      
       var config = require('config')
       return callback(path, config)

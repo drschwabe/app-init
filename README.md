@@ -6,13 +6,16 @@ use cases:
 - you want to expose some configuration values to the end user
 - you want to make it easy for users to find and make backups of key application data (ie- a database)
 
-In both cases, by default, the files will be located in a folder in the user's home directory.  
+app-init, by default, will put these files in a hidden folder in the user's home directory (ex: ~/.coolApp). 
 
 
 #### Usage
 ```
 var appInit = require('app-init')
-appInit('coolApp', callback)
+appInit('coolApp', function(path, config) {
+    console.log(path) // > /home/steve/.coolApp
+    console.log(config) // > node-config object
+})
 ```
 
 ```callback``` returns a path to your shiny new application folder and a config object that lives in said application directory.  The directory will be a hidden folder in user's home (ex: '~/.coolApp' ).
@@ -24,6 +27,8 @@ Provide an object as the first param to specify a different application director
 ```
 appInit({ appName: 'coolApp', path: '/var/etc/coolApp }, callback)
 ```
+
+### Features
 
 #### Mirrored config
 
@@ -37,9 +42,9 @@ To expose configuration to the new user-friendly application folder, create a co
 }
 ```
 
-This part uses [node-config](https://github.com/lorenwest/node-config) so theorectically you can use any of their supported formats, but that's not supported yet - just use json and make sure the basenamme of your file is "default"
+This part uses [node-config](https://github.com/lorenwest/node-config) so theorectically you can use any of their supported formats, but that's not supported yet - just use json and make sure the basename of your file is "default"
 
-When your user runs your app for the first time, app-init (when invoked) will mirror this default config file into the new user-friendly application folder as "local.json".  
+When a user runs your app for the first time, app-init (when invoked) will mirror this default config file into the new user-friendly application folder as "local.json".  
 
 
 #### TODO

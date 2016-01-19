@@ -1,6 +1,7 @@
 var async = require('async'), 
     _ = require('underscore'), 
-    fs = require('fs')
+    fs = require('fs'), 
+    p = require('path')
 
 //Suppress no_config warnings since this is a global app
 //that can be run from any directory...
@@ -14,6 +15,7 @@ module.exports = function(appNameOrObject, pathOrCallback, callback) {
   if(_.isObject(appNameOrObject)) {
     path = appNameOrObject.path
     appName = appNameOrObject.appName
+    callback = pathOrCallback
   } else {
     appName = appNameOrObject
     //Default to the user's home directory:     
@@ -30,8 +32,11 @@ module.exports = function(appNameOrObject, pathOrCallback, callback) {
 
       //If there already exists an app config file in the user's directory, use that
       fs.exists(path, function (exists) {
+        console.log('does the path exist? ')
+        console.log(path)
         //Override config directory:
         if(exists) {
+          console.log('path exists')
           return seriesCallback()
         }
         //Otherwise, do a first run setup!
@@ -40,8 +45,8 @@ module.exports = function(appNameOrObject, pathOrCallback, callback) {
         fs.mkdir(path, function(err) {
           if(err) return console.log(err)
           //Now make a new sub-folder for the config
-          //and copy the template config file we have created in our node app: 
-          var configFile = fs.readFileSync(__dirname + '/config/default.json', 'utf-8')
+          //and copy the template config file we have created in our node app:  
+          var configFile = fs.readFileSync(p.dirname(module.parent.filename) + '/config/default.json', 'utf-8')
           fs.mkdir(path + 'config', function(err) {
             if(err) return console.log(err)
             fs.writeFileSync(path + 'config/local.json', configFile, 'utf-8')           

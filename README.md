@@ -42,14 +42,8 @@ To expose configuration to the new user-friendly application folder, create a co
 }
 ```
 
-This part uses [node-config](https://github.com/lorenwest/node-config) so theorectically you can use any of their supported formats, but that's not supported yet - just use json and make sure the basename of your file is "default"
+This part uses [node-config](https://github.com/lorenwest/node-config) so theorectically you can use any of their supported formats, but that's not supported yet in this module - just use json and make sure the basename of your file is "default"
 
 When a user runs your app for the first time, app-init (when invoked) will mirror this default config file into the new user-friendly application folder as "local.json".  
 
 
-#### TODO
-- remove the need to manually create '/config/default.json'
-- consider removing the default config file
-- test on Mac, Windows
-- support formats other than JSON
-- add another example, this one more detailed showing how you'd call it in your app and then how npm install and first run would have the directory and config appear.

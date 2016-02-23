@@ -1,13 +1,21 @@
 {
   "name": "app-init",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
   "main": "app-init.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "license": "MIT",
+  "description": "Creates a directory (if not already existing) on the local filesystem for storing end user data and customizeable app config.",
+  "homepage": "https://github.com/drschwabe/app-init", 
+  "author": {
+    "name": "Derrick Schwabe",
+    "email": "admin@nerdbusiness.com"
   },
-  "license": "ISC",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drschwabe/app-init"
+  }, 
+  "keywords": [
+    "config", "filesystem", "init", "app", "initialization"
+  ], 
   "dependencies": {
     "async": "^1.3.0",
     "config": "^1.14.0",

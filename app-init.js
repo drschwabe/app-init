@@ -32,16 +32,12 @@ module.exports = function(appNameOrObject, pathOrCallback, callback) {
 
       //If there already exists an app config file in the user's directory, use that
       fs.exists(path, function (exists) {
-        console.log('does the path exist? ')
-        console.log(path)
         //Override config directory:
         if(exists) {
-          console.log('path exists')
           return seriesCallback()
         }
         //Otherwise, do a first run setup!
         console.log('Performing first run setup...')
-        //Create .appName folder in the directory:
         fs.mkdir(path, function(err) {
           if(err) return console.log(err)
           //Now make a new sub-folder for the config

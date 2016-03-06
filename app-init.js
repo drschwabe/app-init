@@ -1,7 +1,8 @@
 var async = require('async'), 
     _ = require('underscore'), 
     fs = require('fs'), 
-    p = require('path')
+    p = require('path'), 
+    mkdirp = require('mkdirp')  
 
 //Suppress no_config warnings since this is a global app
 //that can be run from any directory...
@@ -38,7 +39,7 @@ module.exports = function(appNameOrObject, pathOrCallback, callback) {
         }
         //Otherwise, do a first run setup!
         console.log('Performing first run setup...')
-        fs.mkdir(path, function(err) {
+        mkdirp(path, function(err) {
           if(err) return console.log(err)
           //Now make a new sub-folder for the config
           //and copy the template config file we have created in our node app:  
